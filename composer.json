@@ -1,0 +1,14 @@
+{
+  "name": "paysera/lib-bearer-authentication-bundle",
+  "description": "Bearer Authentication Bundle",
+  "autoload": {
+    "psr-4": {
+      "Paysera\\BearerAuthenticationBundle\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.5",
+    "symfony/symfony": "^2.8 || ^3.0",
+    "paysera/lib-dependency-injection": "^1.0"
+  }
+}
