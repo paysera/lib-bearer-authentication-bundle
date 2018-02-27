@@ -9,9 +9,9 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Paysera\BearerAuthenticationBundle\Security\Authentication\Token\BearerToken;
-use Evp\Bundle\DeviceApiBundle\Security\Authentication\Token\BearerTokenInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Paysera\BearerAuthenticationBundle\Security\Authentication\Token\BearerTokenInterface;
 
 class BearerListener implements ListenerInterface
 {
