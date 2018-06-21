@@ -1,19 +1,19 @@
-#Bearer Authentication Bundle
+# Bearer Authentication Bundle
 
-##Install
+## Install
 
 Add bundle to `AppKernel.php`:
-```
+```php
 $bundles = [
     ...
     new Paysera\BearerAuthenticationBundle\PayseraBearerAuthenticationBundle(),
 ];
 ```
 
-##Samples
+## Samples
 
-Sample security.yml
-```
+Sample `security.yml`
+```yml
 security:
     providers:
         bearer_user:
@@ -27,7 +27,7 @@ security:
 ```
 
 All bearer handlers must be tagged with:
-```
+```xml
 <tag name="paysera_bearer_authentication.handler" />
 ```
 and implement `\Paysera\BearerAuthenticationBundle\Security\User\HandlerInterface` 

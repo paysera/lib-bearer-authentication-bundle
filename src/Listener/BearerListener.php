@@ -3,7 +3,6 @@
 namespace Paysera\BearerAuthenticationBundle\Listener;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
@@ -11,7 +10,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Paysera\BearerAuthenticationBundle\Security\Authentication\Token\BearerToken;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Paysera\BearerAuthenticationBundle\Security\Authentication\Token\BearerTokenInterface;
 
 class BearerListener implements ListenerInterface
 {
@@ -58,20 +56,9 @@ class BearerListener implements ListenerInterface
         try {
             $authToken = $this->authenticationManager->authenticate($token);
             $this->tokenStorage->setToken($authToken);
-
-            return;
-        } catch (AuthenticationException $e) {
+        } catch (AuthenticationException $exception) {
             $this->logger->debug('authentication failed for token', [$token]);
-            if ($token instanceof BearerTokenInterface) {
-                $this->tokenStorage->setToken(null);
-            }
-            $response = new Response;
-            $response->setStatusCode(403);
-            $event->setResponse($response);
         }
-        $response = new Response;
-        $response->setStatusCode(403);
-        $event->setResponse($response);
     }
 
     private function fixAuthHeader(HeaderBag $headers)
