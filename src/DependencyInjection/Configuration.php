@@ -17,8 +17,11 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('paysera_bearer_authentication');
+        $treeBuilder = new TreeBuilder('paysera_bearer_authentication');
+        $rootNode = method_exists($treeBuilder, 'getRootNode')
+            ? $treeBuilder->getRootNode()
+            : $treeBuilder->root('paysera_bearer_authentication')
+        ;
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
