@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   phpunit:
-    name: Run tests: PHP ${{ matrix.php }} Symfony ${{ matrix.symfony }} ${{ matrix.dependency }}
+    name: "Run tests: PHP ${{ matrix.php }} Symfony ${{ matrix.symfony }} ${{ matrix.dependency }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
