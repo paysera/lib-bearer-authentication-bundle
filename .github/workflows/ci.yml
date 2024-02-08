@@ -31,24 +31,41 @@ jobs:
           - '6.*'
         dependency:
           - 'highest'
-        include:
-          - { php: '7.1', symfony: '3.*', dependency: 'lowest' }
-        exclude:
-          - { php: '5.5', symfony: '2.*' }
-          - { php: '5.5', symfony: '3.*' }
-          - { php: '7.1', symfony: '3.*' }
-          - { php: '7.2', symfony: '3.*' }
-          - { php: '7.3', symfony: '3.*' }
-          - { php: '7.4', symfony: '3.*' }
-          - { php: '5.5', symfony: '4.*' }
-          - { php: '7.1', symfony: '4.*' }
-          - { php: '7.2', symfony: '4.*' }
-          - { php: '7.3', symfony: '4.*' }
-          - { php: '7.4', symfony: '4.*' }
-          - { php: '7.1', symfony: '5.*' }
-          - { php: '7.2', symfony: '5.*' }
-          - { php: '7.3', symfony: '5.*' }
-          - { php: '7.4', symfony: '5.*' }
+    include:
+      - php: '7.1'
+        symfony: '3.*'
+        dependency: 'lowest'
+    exclude:
+      - php: '5.5'
+        symfony: '2.*'
+      - php: '5.5'
+        symfony: '3.*'
+      - php: '7.1'
+        symfony: '3.*'
+      - php: '7.2'
+        symfony: '3.*'
+      - php: '7.3'
+        symfony: '3.*'
+      - php: '7.4'
+        symfony: '3.*'
+      - php: '5.5'
+        symfony: '4.*'
+      - php: '7.1'
+        symfony: '4.*'
+      - php: '7.2'
+        symfony: '4.*'
+      - php: '7.3'
+        symfony: '4.*'
+      - php: '7.4'
+        symfony: '4.*'
+      - php: '7.1'
+        symfony: '5.*'
+      - php: '7.2'
+        symfony: '5.*'
+      - php: '7.3'
+        symfony: '5.*'
+      - php: '7.4'
+        symfony: '5.*'
 
     steps:
       - name: Checkout
