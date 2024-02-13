@@ -8,9 +8,9 @@
   },
   "require": {
     "php": ">= 7.4",
-    "symfony/security-bundle": "^v4.4 || ^v5.4",
-    "symfony/http-kernel": "^v4.4 || ^v5.4",
-    "paysera/lib-dependency-injection": "^1.0 ||^1.4"
+    "symfony/security-bundle": "^v5.4",
+    "symfony/http-kernel": "^v5.4",
+    "paysera/lib-dependency-injection": "^1.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6"
