@@ -6,6 +6,5 @@
 
     <imports>
         <import resource="services/security.xml"/>
-        <import resource="services/listeners.xml"/>
     </imports>
 </container>

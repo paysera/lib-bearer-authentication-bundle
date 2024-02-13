@@ -21,7 +21,7 @@ security:
     
     firewalls:
         bearer_secured:
-            patter: ^/api/
+            pattern: ^/api/
             stateless: true
             bearer: true
 ```

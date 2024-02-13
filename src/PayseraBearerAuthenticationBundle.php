@@ -14,7 +14,7 @@ class PayseraBearerAuthenticationBundle extends Bundle
         parent::build($container);
 
         $extension = $container->getExtension('security');
-        $extension->addSecurityListenerFactory(new BearerFactory());
+        $extension->addAuthenticatorFactory(new BearerFactory());
 
         $container->addCompilerPass(new AddTaggedCompilerPass(
             'paysera_bearer_authentication.security_user.bearer_user_provider',
