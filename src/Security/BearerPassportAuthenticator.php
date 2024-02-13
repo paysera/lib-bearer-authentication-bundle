@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\BearerAuthenticationBundle\Security;
 
 use Paysera\BearerAuthenticationBundle\Security\Token\BearerToken;
@@ -26,6 +28,7 @@ class BearerPassportAuthenticator implements AuthenticatorInterface
     private TokenStorageInterface $tokenStorage;
     private LoggerInterface $logger;
     private UserProviderInterface $userProvider;
+
     public function __construct(
         AuthenticationManagerInterface $authenticationManager,
         TokenStorageInterface $tokenStorage,
@@ -45,7 +48,7 @@ class BearerPassportAuthenticator implements AuthenticatorInterface
 
         return $request->headers->has('Authorization')
             && $this->getBearerToken($request->headers) !== null
-            ;
+        ;
     }
 
     private function getBearerToken(HeaderBag $headers): ?string

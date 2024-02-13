@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\BearerAuthenticationBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -9,7 +11,7 @@ use Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\Bear
 
 class PayseraBearerAuthenticationBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 

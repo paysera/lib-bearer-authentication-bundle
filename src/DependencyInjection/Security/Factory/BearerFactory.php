@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AuthenticatorFactoryInterface;
@@ -12,10 +14,9 @@ class BearerFactory implements AuthenticatorFactoryInterface
 {
     public function createAuthenticator(ContainerBuilder $container, string $firewallName, array $config, string $userProviderId): string
     {
-        $authenticatorId = 'security.authentication.provider.bearer.'.$firewallName;
+        $authenticatorId = 'security.authentication.provider.bearer.' . $firewallName;
 
-        $authenticator = (new ChildDefinition('paysera_bearer_authentication.authenticator.bearer_passport'))
-            ;
+        $authenticator = (new ChildDefinition('paysera_bearer_authentication.authenticator.bearer_passport'));
 
         $container->setDefinition($authenticatorId, $authenticator);
 
