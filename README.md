@@ -35,7 +35,7 @@ security:
             id: paysera_bearer_authentication.security_user.bearer_user_provider    
 
     firewalls:
-        jwt:
+      bearer_secured:
             pattern: ^/api
             stateless: true
             custom_authenticators:
