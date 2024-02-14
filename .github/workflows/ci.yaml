@@ -19,7 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - '5.5'
           - '7.1'
           - '7.2'
           - '7.3'
