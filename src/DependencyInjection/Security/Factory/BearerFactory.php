@@ -16,8 +16,13 @@ class BearerFactory implements AuthenticatorFactoryInterface, SecurityFactoryInt
     /**
      * @deprecated since symfony 5.4.x, use AuthenticatorFactoryInterface instead
      */
-    public function create(ContainerBuilder $container, $id, $config, $userProviderId, $defaultEntryPointId): array
-    {
+    public function create(
+        ContainerBuilder $container,
+        string $id,
+        array $config,
+        string $userProviderId,
+        ?string $defaultEntryPointId
+    ): array {
         $providerId = 'security.authentication.provider.bearer.'.$id;
         $container
             ->setDefinition(
