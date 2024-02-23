@@ -9,6 +9,12 @@
         >
         </service>
 
+        <service id="paysera_bearer_authentication.security_authentication_provider.bearer_provider"
+                 class="Paysera\BearerAuthenticationBundle\Security\Provider\BearerProvider"
+        >
+            <argument type="service" id="paysera_bearer_authentication.security_user.bearer_user_provider"/>
+        </service>
+
         <service id="paysera_bearer_authentication.security_voter.bearer_voter"
                  class="Paysera\BearerAuthenticationBundle\Security\Voter\BearerVoter">
             <tag name="security.voter"/>

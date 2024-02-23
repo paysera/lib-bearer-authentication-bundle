@@ -18,22 +18,16 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class BearerListener implements ListenerInterface
 {
-    private $tokenStorage;
-    private $authenticationManager;
-    private $bearerRegex;
-    private $logger;
+    private TokenStorageInterface $tokenStorage;
+    private AuthenticationManagerInterface $authenticationManager;
+    private string $bearerRegex;
+    private LoggerInterface $logger;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     * @param AuthenticationManagerInterface $authenticationManager
-     * @param string $regex
-     * @param LoggerInterface $logger
-     */
     public function __construct(
-        TokenStorageInterface $tokenStorage,
+        TokenStorageInterface          $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
-        $regex,
-        LoggerInterface $logger
+        string                         $regex,
+        LoggerInterface                $logger
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
