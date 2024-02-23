@@ -53,6 +53,10 @@ class BearerPassportAuthenticator implements AuthenticatorInterface
 
     private function getBearerToken(HeaderBag $headers): ?string
     {
+        if($headers->get('Authorization') === null) {
+            return null;
+        }
+
         $matches = [];
         $result = preg_match(self::BEARER_REGEX, $headers->get('Authorization'), $matches);
 
