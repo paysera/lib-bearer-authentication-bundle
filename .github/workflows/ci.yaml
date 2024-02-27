@@ -43,7 +43,7 @@ jobs:
         with:
           dependency-versions: ${{ matrix.dependency }}
 
-      - name: Clear cache (optional)
+      - name: Clear cache
         uses: actions/cache@v3
         with:
           path: ~/.composer/cache

@@ -10,8 +10,8 @@
 >
     <testsuites>
         <testsuite name="Package test suite">
-            <directory>Tests</directory>
-            <directory>Tests/*</directory>
+            <directory>tests</directory>
+            <directory>tests/*</directory>
         </testsuite>
     </testsuites>
 </phpunit>

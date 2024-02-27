@@ -7,6 +7,11 @@
       "Paysera\\BearerAuthenticationBundle\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Paysera\\BearerAuthenticationBundle\\Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": ">=7.4",
     "symfony/security-bundle": "^v4.0 || ^v5.4",
