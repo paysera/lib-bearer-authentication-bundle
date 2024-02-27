@@ -52,4 +52,4 @@ jobs:
             ${{ runner.os }}-composer-${{ matrix.php }}-${{ matrix.symfony }}-${{ matrix.dependency }}
 
       - name: Run all tests
-        run: vendor/bin/phpunit
+        run: composer test
