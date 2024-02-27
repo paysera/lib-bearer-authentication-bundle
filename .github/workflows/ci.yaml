@@ -43,9 +43,6 @@ jobs:
         with:
           dependency-versions: ${{ matrix.dependency }}
 
-      - name: Run all tests
-        run: ./vendor/bin/phpunit
-
       - name: Clear cache (optional)
         uses: actions/cache@v3
         with:
@@ -53,3 +50,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ matrix.php }}-${{ matrix.symfony }}-${{ matrix.dependency }}
           restore-keys: |
             ${{ runner.os }}-composer-${{ matrix.php }}-${{ matrix.symfony }}-${{ matrix.dependency }}
+
+      - name: Run all tests
+        run: vendor/bin/phpunit
