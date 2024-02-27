@@ -8,7 +8,7 @@
     }
   },
   "require": {
-    "php": ">=7.4 || >=8.1",
+    "php": ">=7.4",
     "symfony/security-bundle": "^v4.0 || ^v5.4",
     "symfony/http-kernel": "^v4.0 || ^v5.4",
     "paysera/lib-dependency-injection": "^1.4"
