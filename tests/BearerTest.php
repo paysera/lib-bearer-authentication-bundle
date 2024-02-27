@@ -8,6 +8,7 @@ use Paysera\BearerAuthenticationBundle\Security\BearerPassportAuthenticator;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -18,6 +19,12 @@ class BearerTest extends TestCase
 {
     public function setUp(): void
     {
+        parent::setUp();
+
+        if (Kernel::MAJOR_VERSION < 5) {
+            $this->markTestSkipped('Skipping tests for below symfony 5');
+        }
+
         $this->authenticationManager = $this->createMock(AuthenticationManagerInterface::class);
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
