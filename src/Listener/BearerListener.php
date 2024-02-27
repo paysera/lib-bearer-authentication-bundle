@@ -24,10 +24,10 @@ class BearerListener implements ListenerInterface
     private LoggerInterface $logger;
 
     public function __construct(
-        TokenStorageInterface          $tokenStorage,
+        TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
-        string                         $regex,
-        LoggerInterface                $logger
+        string $regex,
+        LoggerInterface $logger
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;

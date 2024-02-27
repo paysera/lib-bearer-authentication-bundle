@@ -53,7 +53,7 @@ class BearerPassportAuthenticator implements AuthenticatorInterface
 
     private function getBearerToken(HeaderBag $headers): ?string
     {
-        if($headers->get('Authorization') === null) {
+        if ($headers->get('Authorization') === null) {
             return null;
         }
 
