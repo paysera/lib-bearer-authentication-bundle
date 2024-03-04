@@ -6,7 +6,7 @@ namespace Paysera\BearerAuthenticationBundle\Listener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\HeaderBag;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Paysera\BearerAuthenticationBundle\Security\Token\BearerToken;
@@ -35,7 +35,7 @@ class BearerListener implements ListenerInterface
         $this->logger = $logger;
     }
 
-    public function handle(GetResponseEvent $event): void
+    public function handle(KernelEvent $event): void
     {
         $request = $event->getRequest();
         $this->fixAuthHeader($request->headers);
