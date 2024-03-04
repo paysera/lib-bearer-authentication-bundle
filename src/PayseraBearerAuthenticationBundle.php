@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Paysera\Component\DependencyInjection\AddTaggedCompilerPass;
 use Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerSecurityFactory;
+use Symfony\Component\HttpKernel\Kernel;
 
 class PayseraBearerAuthenticationBundle extends Bundle
 {
@@ -21,7 +22,7 @@ class PayseraBearerAuthenticationBundle extends Bundle
             $extension->addAuthenticatorFactory(new BearerAuthenticatorFactory());
         }
 
-        if (method_exists($extension, 'addSecurityListenerFactory')) {
+        if (Kernel::MAJOR_VERSION <= 4) {
             $extension->addSecurityListenerFactory(new BearerSecurityFactory());
         }
 
