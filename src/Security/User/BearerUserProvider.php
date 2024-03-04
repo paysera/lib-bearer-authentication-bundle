@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Paysera\BearerAuthenticationBundle\Security\User;
 
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -33,7 +35,7 @@ class BearerUserProvider implements UserProviderInterface
      * @deprecated use loadUserByIdentifier() instead. this will be removed in future version
      *
      */
-    public function loadUserByUsername(string $username): BearerUserInterface
+    public function loadUserByUsername($username): BearerUserInterface
     {
        return $this->loadUserByIdentifier($username);
     }
@@ -45,6 +47,10 @@ class BearerUserProvider implements UserProviderInterface
             if ($user !== null) {
                 return $user;
             }
+        }
+
+        if (Kernel::MAJOR_VERSION <= 4) {
+            throw new UsernameNotFoundException(sprintf('User with token "%s" does not exist.', $identifier));
         }
 
         throw new UserNotFoundException(sprintf('User with token "%s" does not exist.', $identifier));
