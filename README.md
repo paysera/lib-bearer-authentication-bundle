@@ -24,6 +24,7 @@ security:
             pattern: ^/api/
             stateless: true
             bearer: true
+            provider: bearer_user
 ```
 
 Sample security.yml for Symfony 5

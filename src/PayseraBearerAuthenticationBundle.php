@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Paysera\BearerAuthenticationBundle;
 
+use Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerAuthenticatorFactory;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Paysera\Component\DependencyInjection\AddTaggedCompilerPass;
-use Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerFactory;
+use Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerSecurityFactory;
 
 class PayseraBearerAuthenticationBundle extends Bundle
 {
@@ -17,11 +18,11 @@ class PayseraBearerAuthenticationBundle extends Bundle
 
         $extension = $container->getExtension('security');
         if (method_exists($extension, 'addAuthenticatorFactory')) {
-            $extension->addAuthenticatorFactory(new BearerFactory());
+            $extension->addAuthenticatorFactory(new BearerAuthenticatorFactory());
         }
 
         if (method_exists($extension, 'addSecurityListenerFactory')) {
-            $extension->addSecurityListenerFactory(new BearerFactory());
+            $extension->addSecurityListenerFactory(new BearerSecurityFactory());
         }
 
         $container->addCompilerPass(new AddTaggedCompilerPass(
