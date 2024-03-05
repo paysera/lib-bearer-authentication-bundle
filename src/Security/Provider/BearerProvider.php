@@ -6,6 +6,7 @@ namespace Paysera\BearerAuthenticationBundle\Security\Provider;
 
 use Paysera\BearerAuthenticationBundle\Entity\BearerUserInterface;
 use Paysera\BearerAuthenticationBundle\Security\Authentication\Token\BearerTokenInterface;
+use Paysera\BearerAuthenticationBundle\Security\Token\BearerToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
