@@ -20,8 +20,7 @@
             <tag name="security.voter"/>
         </service>
 
-        <service id="paysera_bearer_authentication.authenticator.bearer_passport"
-                 class="Paysera\BearerAuthenticationBundle\Security\BearerPassportAuthenticator">
+        <service id="Paysera\BearerAuthenticationBundle\Security\BearerPassportAuthenticator">
             <argument type="service" id="security.authentication.manager"/>
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="logger"/>

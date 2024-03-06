@@ -32,7 +32,7 @@ class BearerVoter implements VoterInterface
         /** @var UserInterface $user */
         $user = $token->getUser();
 
-        if ($user instanceof BearerUserInterface && $token->getUser() !== null) {
+        if ($user instanceof BearerUserInterface && $token->isAuthenticated() !== null) {
             return VoterInterface::ACCESS_GRANTED;
         }
 

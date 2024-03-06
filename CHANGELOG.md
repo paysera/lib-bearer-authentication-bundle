@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Dropped support for PHP 5.5 and Symfony 2.x and 3.x
 - Renamed Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerFactory to Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerSecurityFactory
 - Added Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerAuthenticatorFactory for Symfony 5
+- Changed src/Security/Authentication/Token/BearerTokenInterface::getToken(), added return type
 
 ## 1.0.2
 ### Added

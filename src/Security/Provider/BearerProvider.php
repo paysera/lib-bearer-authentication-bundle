@@ -12,9 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-/**
- * @deprecated since symfony 5.3.x
- */
 class BearerProvider implements AuthenticationProviderInterface
 {
     private UserProviderInterface $userProvider;
