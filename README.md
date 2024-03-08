@@ -39,8 +39,6 @@ security:
       bearer_secured:
             pattern: ^/api
             stateless: true
-            custom_authenticators:
-                - paysera_bearer_authentication.authenticator.bearer_passport
             provider: bearer_user
             
     access_control:
@@ -61,3 +59,16 @@ Example of a handler services.yaml
         tags:
             - { name: 'paysera_bearer_authentication.handler' }
 ```
+
+## Support matrix 
+The below table shows the supported PHP versions for this library, please review the composer.json file for each individual package for additional requirements.
+
+| Package version | Symfony Version | PHP Version |
+|-----------------|-----------------|-------------|
+| 0.x             | 2.x             | 5.5         |
+| 0.x             | 3.x             | 5.5         |
+| 1.0.0           | 3.x             | 5.5         |
+| 1.0.1           | 3.x             | 5.5         |
+| 1.0.1           | 4.x             | 5.5         |
+| 2.x             | 4.x             | 7.4         |
+| 2.x             | 5.x             | 7.4         |

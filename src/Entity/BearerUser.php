@@ -49,4 +49,9 @@ class BearerUser implements BearerUserInterface
     {
         return $this->token;
     }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
+    }
 }

@@ -5,13 +5,11 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="paysera_bearer_authentication.security_user.bearer_user_provider"
-                 class="Paysera\BearerAuthenticationBundle\Security\User\BearerUserProvider"
-        >
+                 class="Paysera\BearerAuthenticationBundle\Security\User\BearerUserProvider">
         </service>
 
         <service id="paysera_bearer_authentication.security_authentication_provider.bearer_provider"
-                 class="Paysera\BearerAuthenticationBundle\Security\Provider\BearerProvider"
-        >
+                 class="Paysera\BearerAuthenticationBundle\Security\Provider\BearerProvider">
             <argument type="service" id="paysera_bearer_authentication.security_user.bearer_user_provider"/>
         </service>
 
@@ -21,7 +19,6 @@
         </service>
 
         <service id="Paysera\BearerAuthenticationBundle\Security\BearerPassportAuthenticator">
-            <argument type="service" id="security.authentication.manager"/>
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="logger"/>
             <argument type="service" id="paysera_bearer_authentication.security_user.bearer_user_provider"/>

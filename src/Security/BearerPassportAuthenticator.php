@@ -4,38 +4,36 @@ declare(strict_types=1);
 
 namespace Paysera\BearerAuthenticationBundle\Security;
 
+use Paysera\BearerAuthenticationBundle\Entity\BearerUserInterface;
 use Paysera\BearerAuthenticationBundle\Security\Token\BearerToken;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
-class BearerPassportAuthenticator implements AuthenticatorInterface
+class BearerPassportAuthenticator extends AbstractAuthenticator
 {
     public const BEARER_REGEX = '/Bearer\s+(\S+)/';
 
-    private AuthenticationManagerInterface $authenticationManager;
     private TokenStorageInterface $tokenStorage;
     private LoggerInterface $logger;
     private UserProviderInterface $userProvider;
 
     public function __construct(
-        AuthenticationManagerInterface $authenticationManager,
         TokenStorageInterface $tokenStorage,
         LoggerInterface $logger,
         UserProviderInterface $userProvider
     ) {
-        $this->authenticationManager = $authenticationManager;
         $this->tokenStorage = $tokenStorage;
         $this->logger = $logger;
         $this->userProvider = $userProvider;
@@ -79,21 +77,20 @@ class BearerPassportAuthenticator implements AuthenticatorInterface
         $token->setToken($bearerToken);
 
         try {
-            $user = $this->userProvider->loadUserByIdentifier($token->getToken());
-            $authToken = $this->authenticationManager->authenticate($token);
+            $this->tokenStorage->setToken($token);
 
-            $this->tokenStorage->setToken($authToken);
-            $token->setAttributes($token->getAttributes());
-            $token->setUser($user);
+            $passport = new SelfValidatingPassport(new UserBadge($token->getToken(), [$this->userProvider, 'loadUserByIdentifier']));
 
-            $this->logger->info('Authenticated', [$authToken->getUser()]);
-
-            $passport = new SelfValidatingPassport(new UserBadge($token->getToken()));
+            $this->logger->info('Authenticated', [$passport->getUser()->getUsername()]);
             $passport->setAttribute('bearer', $token);
+            $token->setUser($passport->getUser());
+            $token->setAuthenticated(true);
+            $token->setAttributes($token->getAttributes());
 
             return $passport;
         } catch (AuthenticationException $exception) {
             $this->logger->debug('authentication failed for token', [$token]);
+
             throw $exception;
         }
     }
@@ -107,20 +104,12 @@ class BearerPassportAuthenticator implements AuthenticatorInterface
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        $this->logger->warning('Bearer authentication failed', [
+            $exception->getMessage(),
+            $exception->getToken()
+        ]);
+
         return new Response('Invalid bearer token', Response::HTTP_UNAUTHORIZED);
-    }
-
-    public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
-    {
-        trigger_deprecation(
-            'symfony/security-http',
-            '5.4',
-            'Method "%s()" is deprecated, use "%s::createToken()" instead.',
-            __METHOD__,
-            __CLASS__
-        );
-
-        return $this->createToken($passport, $firewallName);
     }
 
     public function createToken(Passport $passport, string $firewallName): TokenInterface
