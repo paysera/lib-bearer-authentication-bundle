@@ -83,7 +83,6 @@ class BearerTest extends TestCase
     private function createAuthenticator(): BearerPassportAuthenticator
     {
         return new BearerPassportAuthenticator(
-            $this->authenticationManager,
             $this->tokenStorage,
             $this->logger,
             $this->userProvider,
