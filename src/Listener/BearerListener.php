@@ -1,33 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\BearerAuthenticationBundle\Listener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\HeaderBag;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Paysera\BearerAuthenticationBundle\Security\Authentication\Token\BearerToken;
+use Paysera\BearerAuthenticationBundle\Security\Token\BearerToken;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * @deprecated since Symfony 5.4
+ */
 class BearerListener implements ListenerInterface
 {
-    private $tokenStorage;
-    private $authenticationManager;
-    private $bearerRegex;
-    private $logger;
+    private TokenStorageInterface $tokenStorage;
+    private AuthenticationManagerInterface $authenticationManager;
+    private string $bearerRegex;
+    private LoggerInterface $logger;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     * @param AuthenticationManagerInterface $authenticationManager
-     * @param string $regex
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
-        $regex,
+        string $regex,
         LoggerInterface $logger
     ) {
         $this->tokenStorage = $tokenStorage;
@@ -36,7 +35,7 @@ class BearerListener implements ListenerInterface
         $this->logger = $logger;
     }
 
-    public function handle(GetResponseEvent $event)
+    public function handle(KernelEvent $event): void
     {
         $request = $event->getRequest();
         $this->fixAuthHeader($request->headers);
@@ -61,9 +60,9 @@ class BearerListener implements ListenerInterface
         }
     }
 
-    private function fixAuthHeader(HeaderBag $headers)
+    private function fixAuthHeader(HeaderBag $headers): void
     {
-        if (!$headers->has('Authorization') && function_exists('apache_request_headers')) {
+        if (function_exists('apache_request_headers') && !$headers->has('Authorization')) {
             $apacheHeaders = apache_request_headers();
             if (isset($apacheHeaders['Authorization'])) {
                 $headers->set('Authorization', $apacheHeaders['Authorization']);

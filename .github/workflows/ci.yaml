@@ -18,16 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - '7.1'
-          - '7.2'
-          - '7.3'
           - '7.4'
         symfony:
-          - '2.*'
-          - '3.*'
           - '4.*'
           - '5.*'
-          - '6.*'
         dependency:
           - 'highest'
           - 'lowest'
@@ -49,10 +43,13 @@ jobs:
         with:
           dependency-versions: ${{ matrix.dependency }}
 
-      - name: Clear cache (optional)
+      - name: Clear cache
         uses: actions/cache@v3
         with:
           path: ~/.composer/cache
           key: ${{ runner.os }}-composer-${{ matrix.php }}-${{ matrix.symfony }}-${{ matrix.dependency }}
           restore-keys: |
             ${{ runner.os }}-composer-${{ matrix.php }}-${{ matrix.symfony }}-${{ matrix.dependency }}
+
+      - name: Run all tests
+        run: composer test

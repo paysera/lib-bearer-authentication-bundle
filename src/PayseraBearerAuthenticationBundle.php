@@ -1,20 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\BearerAuthenticationBundle;
 
+use Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerAuthenticatorFactory;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Paysera\Component\DependencyInjection\AddTaggedCompilerPass;
-use Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerFactory;
+use Paysera\BearerAuthenticationBundle\DependencyInjection\Security\Factory\BearerSecurityFactory;
+use Symfony\Component\HttpKernel\Kernel;
 
 class PayseraBearerAuthenticationBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 
         $extension = $container->getExtension('security');
-        $extension->addSecurityListenerFactory(new BearerFactory());
+        if (method_exists($extension, 'addAuthenticatorFactory')) {
+            $extension->addAuthenticatorFactory(new BearerAuthenticatorFactory());
+        }
+
+        if (Kernel::MAJOR_VERSION <= 4) {
+            $extension->addSecurityListenerFactory(new BearerSecurityFactory());
+        }
 
         $container->addCompilerPass(new AddTaggedCompilerPass(
             'paysera_bearer_authentication.security_user.bearer_user_provider',

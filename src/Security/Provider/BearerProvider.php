@@ -1,25 +1,27 @@
 <?php
 
-namespace Paysera\BearerAuthenticationBundle\Security\Authentication\Provider;
+declare(strict_types=1);
 
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+namespace Paysera\BearerAuthenticationBundle\Security\Provider;
+
 use Paysera\BearerAuthenticationBundle\Entity\BearerUserInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Paysera\BearerAuthenticationBundle\Security\Authentication\Token\BearerToken;
 use Paysera\BearerAuthenticationBundle\Security\Authentication\Token\BearerTokenInterface;
+use Paysera\BearerAuthenticationBundle\Security\Token\BearerToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class BearerProvider implements AuthenticationProviderInterface
 {
-    private $userProvider;
+    private UserProviderInterface $userProvider;
 
-    public function __construct(UserProviderInterface $provider)
+    public function __construct(UserProviderInterface $userProvider)
     {
-        $this->userProvider = $provider;
+        $this->userProvider = $userProvider;
     }
 
-    public function authenticate(TokenInterface $token)
+    public function authenticate(TokenInterface $token): BearerToken
     {
         /** @var $token BearerTokenInterface $user */
         $user = $this->userProvider->loadUserByUsername($token->getToken());
@@ -32,10 +34,11 @@ class BearerProvider implements AuthenticationProviderInterface
 
             return $authenticatedToken;
         }
+
         throw new AuthenticationException('Bearer authentication failed for token ' . $token->getToken());
     }
 
-    public function supports(TokenInterface $token)
+    public function supports(TokenInterface $token): bool
     {
         return $token instanceof BearerTokenInterface;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\BearerAuthenticationBundle\Security\Voter;
 
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -9,19 +11,19 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class BearerVoter implements VoterInterface
 {
-    const ROLE_API = 'ROLE_API';
+    private const ROLE_API = 'ROLE_API';
 
-    public function supportsAttribute($attribute)
+    public function supportsAttribute($attribute): bool
     {
-        return in_array($attribute, [self::ROLE_API], true);
+        return $attribute === self::ROLE_API;
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return true;
     }
 
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         if (!in_array(self::ROLE_API, $attributes, true)) {
             return VoterInterface::ACCESS_ABSTAIN;
@@ -30,7 +32,7 @@ class BearerVoter implements VoterInterface
         /** @var UserInterface $user */
         $user = $token->getUser();
 
-        if ($user instanceof BearerUserInterface && $token->isAuthenticated()) {
+        if ($user instanceof BearerUserInterface && $token->isAuthenticated() !== null) {
             return VoterInterface::ACCESS_GRANTED;
         }
 
