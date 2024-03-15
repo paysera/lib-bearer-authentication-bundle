@@ -40,6 +40,8 @@ security:
             pattern: ^/api
             stateless: true
             provider: bearer_user
+            custom_authenticators:
+              - Paysera\BearerAuthenticationBundle\Security\BearerPassportAuthenticator
             
     access_control:
         # require ROLE_ADMIN for /admin*
