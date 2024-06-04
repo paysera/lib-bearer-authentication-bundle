@@ -1,7 +1,7 @@
 {
   "name": "paysera/lib-bearer-authentication-bundle",
   "description": "Bearer Authentication Bundle",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "autoload": {
     "psr-4": {
       "Paysera\\BearerAuthenticationBundle\\": "src/"
