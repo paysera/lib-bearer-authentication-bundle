@@ -40,6 +40,7 @@ jobs:
         uses: ramsey/composer-install@v2
         env:
           SYMFONY_REQUIRE: ${{ matrix.symfony }}
+          COMPOSER_NO_SECURITY_BLOCKING: 1
         with:
           dependency-versions: ${{ matrix.dependency }}
 

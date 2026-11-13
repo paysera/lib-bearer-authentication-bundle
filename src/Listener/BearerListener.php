@@ -39,16 +39,16 @@ class BearerListener implements ListenerInterface
     {
         $request = $event->getRequest();
         $this->fixAuthHeader($request->headers);
-        $this->logger->debug('authorization approach logged', $request->headers->all());
+        $this->logger->debug('authorization approach logged', ['headers' => $request->headers->keys()]);
 
         if (
             !$request->headers->has('Authorization')
             || preg_match($this->bearerRegex, $request->headers->get('Authorization'), $matches) !== 1
         ) {
-            $this->logger->debug('no Authorization header found in request', $request->headers->all());
+            $this->logger->debug('no Authorization header found in request', ['headers' => $request->headers->keys()]);
             return;
         }
-        $this->logger->debug('Authorization header found', [$request->headers->get('Authorization')]);
+        $this->logger->debug('Authorization header found');
         $token = new BearerToken();
         $token->setToken($matches[1]);
 
@@ -56,7 +56,7 @@ class BearerListener implements ListenerInterface
             $authToken = $this->authenticationManager->authenticate($token);
             $this->tokenStorage->setToken($authToken);
         } catch (AuthenticationException $exception) {
-            $this->logger->debug('authentication failed for token', [$token]);
+            $this->logger->debug('authentication failed for token', [get_class($exception)]);
         }
     }
 

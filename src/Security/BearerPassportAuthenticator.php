@@ -39,7 +39,7 @@ class BearerPassportAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        $this->logger->debug('bearer authorization approach logged', $request->headers->all());
+        $this->logger->debug('bearer authorization approach logged', ['headers' => $request->headers->keys()]);
         $this->fixAuthHeader($request->headers);
 
         return $request->headers->has('Authorization')
@@ -67,7 +67,7 @@ class BearerPassportAuthenticator extends AbstractAuthenticator
     {
         $bearerToken = $this->getBearerToken($request->headers);
         if ($bearerToken === null) {
-            $this->logger->debug('no Authorization header found in request', $request->headers->all());
+            $this->logger->debug('no Authorization header found in request', ['headers' => $request->headers->keys()]);
             throw new AuthenticationException('Token not found');
         }
 
@@ -87,7 +87,7 @@ class BearerPassportAuthenticator extends AbstractAuthenticator
 
             return $passport;
         } catch (AuthenticationException $exception) {
-            $this->logger->debug('authentication failed for token', [$token]);
+            $this->logger->debug('authentication failed for token', [get_class($exception)]);
 
             throw $exception;
         }
@@ -102,10 +102,7 @@ class BearerPassportAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $this->logger->warning('Bearer authentication failed', [
-            $exception->getMessage(),
-            $exception->getToken()
-        ]);
+        $this->logger->warning('Bearer authentication failed', [$exception->getMessage()]);
 
         return new JsonResponse(['error' => 'unauthorized' ,'error_description' => 'No authorization data found'], Response::HTTP_UNAUTHORIZED);
     }
