@@ -35,7 +35,7 @@ class BearerProvider implements AuthenticationProviderInterface
             return $authenticatedToken;
         }
 
-        throw new AuthenticationException('Bearer authentication failed for token ' . $token->getToken());
+        throw new AuthenticationException('Bearer authentication failed');
     }
 
     public function supports(TokenInterface $token): bool

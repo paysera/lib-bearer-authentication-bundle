@@ -52,7 +52,7 @@ class BearerUserProvider implements UserProviderInterface
             }
         }
 
-        throw new UserNotFoundException(sprintf('User with token "%s" does not exist.', $identifier));
+        throw new UserNotFoundException('User with this bearer token does not exist.');
     }
 
     public function refreshUser(UserInterface $user): BearerUserInterface

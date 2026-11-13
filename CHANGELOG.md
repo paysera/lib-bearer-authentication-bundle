@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 2.0.2 2026-11-13
+### Security
+- Log records no longer carry the bearer token, the `Authorization` header or other header values (cookies included).
+  - "bearer authorization approach logged", "authorization approach logged" and "no Authorization header found in request"
+    log the header names (`headers`), not the headers with their values.
+  - "Authorization header found" no longer logs the header.
+  - "authentication failed for token" logs the exception class, not the token.
+  - "Bearer authentication failed" logs the exception message only, not the exception's token.
+- `BearerUserProvider` and `BearerProvider` exception messages no longer contain the token.
+
 ## 2.0.1 2024-06-04
 ### Added 
 - Updated `BearerPassportAuthenticator::onAuthenticationFailure` response message

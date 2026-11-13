@@ -40,6 +40,44 @@ class BearerTest extends TestCase
         $this->assertSame($expected, $this->createAuthenticator()->supports($request));
     }
 
+    public function testSupportsLogsHeaderNamesOnly(): void
+    {
+        $request = new Request();
+        $request->headers->replace(['Authorization' => 'Bearer secret-token', 'Cookie' => 'session=secret-cookie']);
+
+        $this->logger
+            ->expects($this->once())
+            ->method('debug')
+            ->with('bearer authorization approach logged', ['headers' => ['authorization', 'cookie']])
+        ;
+
+        $this->createAuthenticator()->supports($request);
+    }
+
+    public function testAuthenticationFailureLogDoesNotContainToken(): void
+    {
+        $request = new Request();
+        $request->headers->add(['Authorization' => 'Bearer secret-token']);
+        $this->userProvider = $this->getMockBuilder(UserProviderInterface::class)
+            ->onlyMethods(['loadUserByUsername', 'refreshUser', 'supportsClass'])
+            ->addMethods(['loadUserByIdentifier'])
+            ->getMock()
+        ;
+        $this->userProvider
+            ->method('loadUserByIdentifier')
+            ->willThrowException(new AuthenticationException('Bad credentials.'))
+        ;
+        $this->logger
+            ->expects($this->once())
+            ->method('debug')
+            ->with('authentication failed for token', [AuthenticationException::class])
+        ;
+
+        $this->expectException(AuthenticationException::class);
+
+        $this->createAuthenticator()->authenticate($request);
+    }
+
     public function testOnAuthenticationSuccess(): void
     {
         $token = $this->createMock(TokenInterface::class);
